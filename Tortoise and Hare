@@ -1,0 +1,61 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+void Tortoise_turn(int *ptr) {
+   int i = rand() % 10 + 1;
+   if (i <= 5) *ptr += 3;        //fast plod
+   else if (i <= 7) *ptr -= 6;  //slipping up
+   else *ptr += 1;              //slow plod
+
+   if (*ptr < 1) *ptr = 1;
+}
+
+void Hare_turn(int *ptr) {
+   int i = rand() % 10 + 1;
+   if (i <= 2) ;                 //sleep
+   else if (i <= 4) *ptr += 9;   //big hop
+   else if (i == 5) *ptr -= 12;  //big slip
+   else if (i <= 8) *ptr += 1;   //small hop
+   else *ptr -= 2;               //small slip
+
+   if (*ptr < 1) *ptr = 1;
+}
+
+void Track_lines(int T_position, int H_position) {
+   for (int i = 1; i <= 70; ++i) {
+       if (i == T_position && i == H_position)
+           cout << "OUCH!!!";
+       else if (i == T_position)
+           cout << "T";
+       else if (i == H_position)
+           cout << "H";
+       else
+           cout << " ";
+   }
+   cout << endl;
+}
+
+int main() {
+   int tortoise = 1, hare = 1;
+   srand(time(0));
+
+   cout << "BANG!!!!!\nAND THEY'RE OFF !!!!!\n";
+
+   while (tortoise < 70 && hare < 70) {
+       Tortoise_turn(&tortoise);
+       Hare_turn(&hare);
+       Track_lines(tortoise, hare);
+   }
+
+   if (tortoise >= 70 && hare >= 70)
+       cout << "It's a tie.\n";
+   else if (tortoise >= 70)
+       cout << "TORTOISE WINS!!! YAY!!!\n";
+   else
+       cout << "Hare wins. Yuch.\n";
+
+   return 0;
+}
